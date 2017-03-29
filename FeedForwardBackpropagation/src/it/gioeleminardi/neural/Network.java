@@ -41,6 +41,11 @@ public class Network {
 	protected double learnRate;
 
 	/**
+	 * The momentum of the training
+	 */
+	protected double momentum;
+
+	/**
 	 * The output from the various levels
 	 */
 	protected double fire[];
@@ -51,9 +56,9 @@ public class Network {
 	protected double matrix[];
 
 	/**
-	 * The error from the last calculation
+	 * The changes that should be applied to the weight matrix
 	 */
-	protected double error[];
+	protected double matrixDelta[];
 
 	/**
 	 * Accumulates matrix's delta for training
@@ -66,9 +71,9 @@ public class Network {
 	protected double thresholds[];
 
 	/**
-	 * The changes that should be applied to the weight matrix
+	 * The threshold deltas
 	 */
-	protected double matrixDelta[];
+	protected double thresholdDelta[];
 
 	/**
 	 * The accumulation of thresholds deltas
@@ -76,19 +81,62 @@ public class Network {
 	protected double accThresholdDelta[];
 
 	/**
-	 * The threshold deltas
+	 * The error from the last calculation
 	 */
-	protected double thresholdDelta[];
-
-	/**
-	 * The momentum of the training
-	 */
-	protected double momentum;
+	protected double error[];
 
 	/**
 	 * The changes in the errors
 	 */
 	protected double errorDelta[];
 
+	/**
+	 * The constructor of the Network
+	 *
+	 * @param inputCount  The number of input neurons
+	 * @param hiddenCount The number of hidden neurons
+	 * @param outputCount The number of output neurons
+	 * @param learnRate   The learn rate used in the training
+	 * @param momentum    The momentum used in the training
+	 */
+	public Network(int inputCount, int hiddenCount, int outputCount, double learnRate, double momentum) {
+		this.inputCount = inputCount;
+		this.hiddenCount = hiddenCount;
+		this.outputCount = outputCount;
+		this.learnRate = learnRate;
+		this.momentum = momentum;
 
+		this.neuronCount = inputCount + hiddenCount + outputCount;
+		this.weightCount = (inputCount * hiddenCount) + (hiddenCount * outputCount);
+
+		this.fire = new double[neuronCount];
+		this.matrix = new double[weightCount];
+		this.matrixDelta = new double[weightCount];
+		this.accMatrixDelta = new double[weightCount];
+		this.thresholds = new double[neuronCount];
+		this.thresholdDelta = new double[neuronCount];
+		this.accThresholdDelta = new double[neuronCount];
+		this.error = new double[neuronCount];
+		this.errorDelta = new double[neuronCount];
+
+		reset();
+	}
+
+	/**
+	 * Reset all weight and thresholds
+	 */
+	public void reset() {
+		int i;
+		for (i = 0; i < neuronCount; i++) {
+			thresholds[i] = 0.5 - Math.random();
+			thresholdDelta[i] = 0;
+			accThresholdDelta[i] = 0;
+		}
+
+		for (i = 0; i < matrix.length; i++){
+			matrix[i] = 0.5 - Math.random();
+			matrixDelta[i] = 0;
+			accMatrixDelta[i] = 0;
+		}
+	}
 }
