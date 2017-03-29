@@ -123,6 +123,26 @@ public class Network {
 	}
 
 	/**
+	 * Compute the output for a given input to the network.
+	 *
+	 * @param input The input of the neural net
+	 * @return The results from the output neurons
+	 */
+	public double[] computeOutputs(double input[]) {
+		int i, j;
+		final int hiddenIndex = hiddenCount;
+		final int outIndex = inputCount + hiddenCount;
+
+		for (i = 0; i < inputCount; i++) {
+			fire[i] = input[i];
+		}
+
+		// first layer
+		int inx = 0;
+
+	}
+
+	/**
 	 * Reset all weight and thresholds
 	 */
 	public void reset() {
@@ -133,7 +153,7 @@ public class Network {
 			accThresholdDelta[i] = 0;
 		}
 
-		for (i = 0; i < matrix.length; i++){
+		for (i = 0; i < matrix.length; i++) {
 			matrix[i] = 0.5 - Math.random();
 			matrixDelta[i] = 0;
 			accMatrixDelta[i] = 0;
