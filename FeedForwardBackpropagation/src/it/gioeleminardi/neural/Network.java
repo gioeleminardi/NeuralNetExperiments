@@ -79,4 +79,16 @@ public class Network {
 	 * The threshold deltas
 	 */
 	protected double thresholdDelta[];
+
+	/**
+	 * The momentum of the training
+	 */
+	protected double momentum;
+
+	/**
+	 * The changes in the errors
+	 */
+	protected double errorDelta[];
+
+
 }
