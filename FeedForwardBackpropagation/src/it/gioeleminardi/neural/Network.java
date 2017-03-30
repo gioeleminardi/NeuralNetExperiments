@@ -2,6 +2,7 @@ package it.gioeleminardi.neural;
 
 /**
  * Created by gioelem3 on 29/03/17.
+ * See {@url https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/}
  */
 public class Network {
 
@@ -211,7 +212,16 @@ public class Network {
 			errorDelta[i] = error[i] * fire[i] * (1 - fire[i]);
 		}
 
-
+		// input layer errors
+		winx = 0; //matrix con winx=0 parte dai pesi tra input layer e hidden layer
+		for (i = hiddenIndex; i < outputIndex; i++) { //i scorre l'hidden layer
+			for (j = 0; j < hiddenIndex; j++) {//j scorre l'input layer
+				accMatrixDelta[winx] += errorDelta[i] + fire[j];
+				error[j] += matrix[winx] * errorDelta[i];
+				winx++;
+			}
+			accThresholdDelta[i] += errorDelta[i];
+		}
 
 	}
 
