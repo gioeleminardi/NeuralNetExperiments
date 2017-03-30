@@ -29,8 +29,8 @@
       <file leaf-file-name="Network.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/it/gioeleminardi/neural/Network.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="225" column="5" lean-forward="false" selection-start-line="225" selection-start-column="5" selection-end-line="225" selection-end-column="5" />
+            <state relative-caret-position="341">
+              <caret line="247" column="0" lean-forward="true" selection-start-line="247" selection-start-column="0" selection-end-line="247" selection-end-column="0" />
               <folding>
                 <element signature="e#2923#2924#0" expanded="true" />
                 <element signature="e#2969#2970#0" expanded="true" />
@@ -603,7 +603,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1490824600104</updated>
-      <workItem from="1490824601391" duration="5733000" />
+      <workItem from="1490824601391" duration="6066000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed workspace">
       <created>1490824704908</created>
@@ -633,11 +633,18 @@
       <option name="project" value="LOCAL" />
       <updated>1490864993548</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="calcError">
+      <created>1490866977388</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1490866977388</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5733000" />
+    <option name="totallyTimeSpent" value="6066000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -694,7 +701,8 @@
     <MESSAGE value="started constructor wrtiting" />
     <MESSAGE value="Compute outputs" />
     <MESSAGE value="wip calcError" />
-    <option name="LAST_COMMIT_MESSAGE" value="wip calcError" />
+    <MESSAGE value="calcError" />
+    <option name="LAST_COMMIT_MESSAGE" value="calcError" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -723,8 +731,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/it/gioeleminardi/neural/Network.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="225" column="5" lean-forward="false" selection-start-line="225" selection-start-column="5" selection-end-line="225" selection-end-column="5" />
+        <state relative-caret-position="341">
+          <caret line="247" column="0" lean-forward="true" selection-start-line="247" selection-start-column="0" selection-end-line="247" selection-end-column="0" />
           <folding>
             <element signature="e#2923#2924#0" expanded="true" />
             <element signature="e#2969#2970#0" expanded="true" />

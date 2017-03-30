@@ -226,6 +226,27 @@ public class Network {
 	}
 
 	/**
+	 * Modify the weight matrix and thresholds bases on the last call to calcError
+	 */
+	public void learn() {
+		int i;
+
+		// process the matrix
+		for (i = 0; i < matrix.length; i++) {
+			matrixDelta[i] = (learnRate * accMatrixDelta[i]) + (momentum * matrixDelta[i]);
+			matrix[i] += matrixDelta[i];
+			accMatrixDelta[i] = 0;
+		}
+
+		// process the thresholds
+		for (i = inputCount; i < neuronCount; i++) {
+			thresholdDelta[i] = (learnRate * accThresholdDelta[i]) + (momentum * matrixDelta[i]);
+			thresholds[i] += thresholdDelta[i];
+			accThresholdDelta[i] = 0;
+		}
+	}
+
+	/**
 	 * Reset all weight and thresholds
 	 */
 	public void reset() {
