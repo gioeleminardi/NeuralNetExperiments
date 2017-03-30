@@ -123,6 +123,17 @@ public class Network {
 	}
 
 	/**
+	 * Activation function.
+	 * In this case is a Sigmoid Function
+	 *
+	 * @param sum The activation from the neuron
+	 * @return The activation applied to the threshold function
+	 */
+	public double threshold(double sum) {
+		return 1.0 / (1 + Math.exp(-1.0 * sum));
+	}
+
+	/**
 	 * Compute the output for a given input to the network.
 	 *
 	 * @param input The input of the neural net
@@ -137,9 +148,29 @@ public class Network {
 			fire[i] = input[i];
 		}
 
-		// first layer
 		int inx = 0;
 
+		// first layer -> hidden layer
+		for (i = hiddenIndex; i < outIndex; i++) {
+			double sum = thresholds[i];
+			for (j = 0; j < inputCount; j++) {
+				sum += fire[j] * matrix[inx++];
+			}
+			fire[i] = threshold(sum);
+		}
+
+		// hidden layer -> output layer
+		double result[] = new double[outputCount];
+
+		for (i = outIndex; i < neuronCount; i++) {
+			double sum = thresholds[i];
+			for (j = hiddenIndex; j < outIndex; j++) {
+				sum += fire[j] * matrix[inx++];
+			}
+			fire[i] = threshold(sum);
+			result[i - outIndex] = fire[i];
+		}
+		return result;
 	}
 
 	/**
