@@ -124,6 +124,17 @@ public class Network {
 	}
 
 	/**
+	 * Return the RMSE for a complete training set
+	 * @param len The lenght of the complete training set
+	 * @return The current error for the neural network
+	 */
+	public double getError(int len){
+		double err = Math.sqrt(globalError / (len * outputCount));
+		globalError = 0;
+		return err;
+	}
+
+	/**
 	 * Activation function.
 	 * In this case is a Sigmoid Function
 	 *
@@ -205,6 +216,7 @@ public class Network {
 				error[j] += matrix[winx] * errorDelta[i];
 				winx++;
 			}
+			accThresholdDelta[i] += errorDelta[i];
 		}
 
 		// hidden layer deltas
@@ -216,7 +228,7 @@ public class Network {
 		winx = 0; //matrix con winx=0 parte dai pesi tra input layer e hidden layer
 		for (i = hiddenIndex; i < outputIndex; i++) { //i scorre l'hidden layer
 			for (j = 0; j < hiddenIndex; j++) {//j scorre l'input layer
-				accMatrixDelta[winx] += errorDelta[i] + fire[j];
+				accMatrixDelta[winx] += errorDelta[i] * fire[j];
 				error[j] += matrix[winx] * errorDelta[i];
 				winx++;
 			}
@@ -240,7 +252,7 @@ public class Network {
 
 		// process the thresholds
 		for (i = inputCount; i < neuronCount; i++) {
-			thresholdDelta[i] = (learnRate * accThresholdDelta[i]) + (momentum * matrixDelta[i]);
+			thresholdDelta[i] = (learnRate * accThresholdDelta[i]) + (momentum * thresholdDelta[i]);
 			thresholds[i] += thresholdDelta[i];
 			accThresholdDelta[i] = 0;
 		}
