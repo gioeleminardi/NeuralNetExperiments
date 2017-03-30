@@ -141,36 +141,78 @@ public class Network {
 	 */
 	public double[] computeOutputs(double input[]) {
 		int i, j;
-		final int hiddenIndex = hiddenCount;
+		final int hiddenIndex = inputCount;
 		final int outIndex = inputCount + hiddenCount;
 
-		for (i = 0; i < inputCount; i++) {
-			fire[i] = input[i];
+		for (i = 0; i < inputCount; i++) { //i scorre sull'input layer
+			fire[i] = input[i]; //all'inizio fire, tra 0 e inputCount contiene gli input (primo giro della neural net)
 		}
 
-		int inx = 0;
+		int inx = 0; //indice globale per la matrix dei pesi
 
 		// first layer -> hidden layer
-		for (i = hiddenIndex; i < outIndex; i++) {
-			double sum = thresholds[i];
-			for (j = 0; j < inputCount; j++) {
-				sum += fire[j] * matrix[inx++];
+		for (i = hiddenIndex; i < outIndex; i++) { //i scorre sull'hidden layer
+			double sum = thresholds[i]; //prendo il precedente threshold
+			for (j = 0; j < inputCount; j++) { //j scorre sull'input layer
+				sum += fire[j] * matrix[inx++]; //moltiplico il j-esimo valore di input * il peso dell'arco tra il neurone hidden i e l'input j
 			}
-			fire[i] = threshold(sum);
+			fire[i] = threshold(sum); //threshold torna tra 0 e 1
 		}
 
 		// hidden layer -> output layer
 		double result[] = new double[outputCount];
 
-		for (i = outIndex; i < neuronCount; i++) {
+		for (i = outIndex; i < neuronCount; i++) { //i scorre sull'output layer
 			double sum = thresholds[i];
-			for (j = hiddenIndex; j < outIndex; j++) {
+			for (j = hiddenIndex; j < outIndex; j++) { //j scorre sull'hidden layer
 				sum += fire[j] * matrix[inx++];
 			}
 			fire[i] = threshold(sum);
 			result[i - outIndex] = fire[i];
 		}
 		return result;
+	}
+
+	/**
+	 * Calculate the error for the recognition just done
+	 *
+	 * @param ideal What the output neurons should have yielded
+	 */
+	public void calcError(double ideal[]) {
+		int i, j;
+		final int hiddenIndex = inputCount;
+		final int outputIndex = inputCount + hiddenCount;
+
+		// clear hidden layer errors
+		for (i = inputCount; i < neuronCount; i++) { //i scorre su hidden layer + output layer
+			error[i] = 0;
+		}
+
+		// layer errors and deltas for the output layer
+		for (i = outputIndex; i < neuronCount; i++) { //i scorre sull'output layer
+			error[i] = ideal[i - outputIndex] - fire[i]; //calcolo l'errore per ogni neurone di output
+			globalError += error[i] * error[i]; //calcolo l'errore globale
+			errorDelta[i] = error[i] * fire[i] * (1 - fire[i]); //calcolo il delta di ogni errore
+		}
+
+		// hidden layer errors
+		int winx = inputCount * hiddenCount; //indice per la matrice dei pesi (matrix). winx parte dai pesi tra hidden layer e output layer
+
+		for (i = outputIndex; i < neuronCount; i++) { //i scorre sull'output layer
+			for (j = hiddenIndex; j < outputIndex; j++) { //j scorre sull'hidden layer
+				accMatrixDelta[winx] += errorDelta[i] * fire[j];
+				error[j] += matrix[winx] * errorDelta[i];
+				winx++;
+			}
+		}
+
+		// hidden layer deltas
+		for (i = hiddenIndex; i < outputIndex; i++) { //i scorre sull'hidden layer
+			errorDelta[i] = error[i] * fire[i] * (1 - fire[i]);
+		}
+
+
+
 	}
 
 	/**
